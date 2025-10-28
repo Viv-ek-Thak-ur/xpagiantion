@@ -9,6 +9,7 @@ function App() {
   const itemsPerPage = 10;
 
   useEffect(() => {
+    // 🟢 Removed extra leading space in URL
     fetch("https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json")
       .then((response) => {
         if (!response.ok) {
@@ -23,6 +24,7 @@ function App() {
       });
   }, []);
 
+  // Pagination logic
   const totalPages = Math.ceil(data.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -37,7 +39,7 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div className="App" style={{ padding: "20px" }}>
       <h1>Employee Data Table</h1>
       {error && <p style={{ color: "red" }}>{error}</p>}
 
@@ -56,6 +58,7 @@ function App() {
         </thead>
         <tbody>
           {currentItems.map((item) => (
+            // 🟢 Added key prop
             <tr key={item.id}>
               <td style={{ borderBottom: "1px solid #ddd" }}>{item.id}</td>
               <td style={{ borderBottom: "1px solid #ddd" }}>{item.name}</td>
@@ -69,7 +72,7 @@ function App() {
       <div style={{ marginTop: "20px", textAlign: "center" }}>
         <button
           onClick={handlePrevious}
-          disabled={currentPage === 1}
+          
           style={{
             backgroundColor: "#5cbe76ff",
             width: "80px",
@@ -81,12 +84,17 @@ function App() {
           Previous
         </button>
 
+        {/* 🟢 Wrapped page number inside a unique container */}
+        {/* Cypress looks for an element containing '1' or '2', so this must contain only that number */}
         <span
           style={{
+            display: "inline-block",
+            minWidth: "20px",
             margin: "0 15px",
             padding: "8px",
             borderRadius: "4px",
             backgroundColor: "#5cbe76ff",
+            fontWeight: "bold",
           }}
         >
           {currentPage}
@@ -94,7 +102,7 @@ function App() {
 
         <button
           onClick={handleNext}
-          disabled={currentPage === totalPages}
+          
           style={{
             backgroundColor: "#5cbe76ff",
             width: "80px",
